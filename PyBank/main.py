@@ -12,7 +12,10 @@ profit = []
 change = []
 AmountTotal = 0
 valuechange = 0
-i = 0
+valuesum = 0
+maxvalue = 0
+minvalue = 0
+count = 0
 
 with open(financialdata, newline="") as csvfile:
     csvreader = csv.reader(csvfile, delimiter=",")
@@ -35,11 +38,26 @@ with open(financialdata, newline="") as csvfile:
 
 # The average of the changes in "Profit/Losses" over the entire period
 
-    for line in profit:
-        valuechange = (profit[line+1]) - (profit[line])
-        change.append(valuechange)
-        i+=1
-    print(change[0])
+    for i in range(len(profit)-1):
+        valuechange = int(profit[i+1]) - int(profit[i])
+        count += 1
+        if valuechange > maxvalue:
+            maxvalue = valuechange
+            maxvaluecount = count
+        if valuechange < minvalue:
+            minvalue = valuechange
+            minvaluecount = count
+        valuesum = valuesum + valuechange
+        valueaverage = valuesum/(len(profit)-1)
+    print(valueaverage)
+    print(f'{date[maxvaluecount]} {maxvalue}')
+    print(f'{date[minvaluecount]} {minvalue}')
+
+    # for line in profit:
+    #     valuechange = (profit[line+1]) - (profit[line])
+    #     change.append(valuechange)
+    #     i+=1
+    # print(change[0])
     #for i in profit:
         #non of this stuff worked
         #changevalue = int(profit[i+1]) - int(profit[i])
